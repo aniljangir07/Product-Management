@@ -5,9 +5,8 @@ import statusMsg from '../../constants/status.js';
 import { LIMIT, SKIP } from '../../constants/variables.js';
 
 export const getProductList = async (req,res,next) => {
-
-      const limit1 = req.query.limit ? parseInt(req.query.limit) : LIMIT;
-      const skip1  = req.query.skip  ? parseInt(req.query.skip)  : SKIP;
+      const limit = req.query.limit ? parseInt(req.query.limit) : LIMIT;
+      const skip  = req.query.skip  ? parseInt(req.query.skip)  : SKIP;
 
       const filterProduct = req.query.product_name ? req.query.product_name: '';
       const regexPattern = new RegExp(filterProduct, 'i');
@@ -18,7 +17,7 @@ export const getProductList = async (req,res,next) => {
       };
   
       try {
-            const products = await Product.find(conditionObjects).sort({ created: -1 }).limit(limit1).skip(skip1);
+            const products = await Product.find(conditionObjects).sort({ created: -1 }).limit(limit).skip(skip);
             res.status(statusMsg.SUCCESS).json({products : products});
       } catch (error) {
             console.error('Error fetching product list:', error);
